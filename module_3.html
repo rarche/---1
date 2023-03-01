@@ -1,0 +1,127 @@
+<script>
+
+class Product {
+
+    constructor(name,price,quantify,description) {
+        this.name = name;
+        this.price = price;
+        this.quantity = quantify;
+        this.description = description;
+    }
+}
+
+function dict(str) {
+    let str_array = str.split('&');
+    let feature_value = new Map();
+
+                for (let i of str_array) {
+                i = i.split('-')
+
+                if (i[i.length-1].search(/\d/) != -1) {
+                    value_array = [i[i.length-1][0],i[i.length-1][1]];
+                    feature_value.set(i[0],value_array);
+                } else {
+                    value_array = [i[1],i[2]];
+                    feature_value.set(i[0],value_array);
+                }
+                }
+
+            return feature_value;
+            }
+
+function filter(products_array,str) {
+    feature_value = dict(str);
+    result_array = []
+    Label_1: for (let i of products_array) {
+        result_array.push(i)
+    Label_2: for (let [k,v] of feature_value) {
+            if (v[1].search(/\d/) != -1) {
+                if (v[0] == '>') {
+                    if (i[k] > v[1]) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                } else if (v[0] == '<') {
+                    if (i[k] < v[1]) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                } else if (v[0] == '=') {
+                    if (i[k] == v[1]) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                } else if (v[0] == '<=') {
+                    if (i[k] <= v[1]) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop();
+                        continue Label_1
+                    }
+                } else if (v[0] == '>=') {
+                    if (i[k] >= v[1]) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                }
+        } else {
+                if (v[0] == 'contains') {
+                    if (i[k].includes(v[1])) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                    } else if (v[0] == 'starts') {
+                    if (i[k].startsWith(v[1])) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                    } else if (v[0] == 'ends') {
+                    if (i[k].endsWith(v[1])) { 
+                        continue Label_2
+                    } else {
+                        result_array.pop()
+                        continue Label_1
+                    }
+                    }
+    }
+    }
+    }
+    return result_array;
+}
+
+function show (array) {
+    for (let i of final_array) {
+        alert([final_array.length,i.name])
+    }}
+
+let product_1 = new Product('fdirro',2,4,'sadabc');
+let product_2 = new Product('fdirro',4,6,'sadab');
+let product_3 = new Product('irfdoo',2,10,'abcabc');
+let product_4 = new Product('fdkk',10,5,'asdk1');
+let product_5 = new Product('fdooqw',10,5,'asdk1');
+let product_6 = new Product('ooqfdw',12,5,'asdk1');
+
+products = [product_1,product_2,product_3,product_4,product_5,product_6]
+let str = 'name-contains-fd&price-=2&quantity->5&description-ends-abc'
+
+final_array = filter(products,str);
+show(final_array)
+
+str = 'name-starts-fd&quantity-=5'
+final_array = filter(products,str);
+show(final_array);
+
+
+</script>

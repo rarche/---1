@@ -1,0 +1,85 @@
+<script>
+class module_1 {
+
+    method_to_upper(User_string) {
+        return((User_string.slice(0,1).toUpperCase()) + (User_string.slice(1).toLowerCase()));
+    }
+
+    method_good_punctuation(User_string) {
+        User_string = User_string.replace(/ +/g, ' ').trim();
+        User_string = User_string.replace(/ \,/g, ',');
+        User_string = User_string.replace(/ \./g, '.');
+
+        let punct_with_space_index = User_string.search(/\p{P}\S/u)
+
+        while(punct_with_space_index != -1) {
+            User_string = User_string.slice(0,punct_with_space_index+1) + ' ' + (User_string.slice(punct_with_space_index+1));
+            punct_with_space_index = User_string.search(/\p{P}\S/u)
+        }
+        return(User_string);
+    }
+
+    method_amount_of_words(User_string) {
+        User_string = User_string.replace(/\p{P}/gu, ' ');
+        User_string = User_string.replace(/ +/g, ' ').trim();
+        let arr_string = User_string.split(' ');
+        let count = 0;
+        for (let word in arr_string) {
+            count++;
+        }
+
+    return(`Количество слов в строке = ${count}`);
+    }
+
+    method_dict_word(User_string) {
+        User_string = User_string.replace(/\p{P}/gu, ' ');
+        User_string = User_string.replace(/ +/g, ' ').trim();
+        User_string = User_string.toLowerCase();
+        User_string = ' ' + User_string + ' ';
+
+        let arr_string = User_string.split(' ');
+        let word_dict = new Map();
+
+        for (let word of arr_string) {
+            let regexp = new RegExp(` ${word} `,'ig')
+            if (User_string.match(regexp) === null) {
+                continue;
+            } else {
+                let amount = User_string.match(regexp).length;
+                word_dict.set(word,amount);
+                User_string = User_string.replace(regexp,' ')
+            }
+        }
+    return word_dict;
+    }
+
+    method_unique_words(Word_dict) {
+        let result = 'В данной строке содержится: '
+        let array_for_raz = [0,1,5,6,7,8,9,11,12,13,14,15,16,17,18,19]
+        for (let [key,value] of Word_dict) {
+                if (array_for_raz.includes(+(String(value).slice(-1))) || array_for_raz.includes(+(String(value).slice(-2)))) {
+                    result = result + `${key} - ${value} раз` + ', '
+                } else {
+                    result = result + `${key} - ${value} раза` + ', '
+                }
+            }
+    return result.slice(0,-2) + '.'
+    }
+}
+
+let module = new module_1;
+
+let any_string = 'i Am AbSolUteLY FIne';
+alert(module.method_to_upper(any_string));
+
+any_string = "Вот пример строки,в которой     используются знаки препинания.После знаков должны стоять пробелы , а перед знаками их быть не должно .    Если есть лишние подряд идущие пробелы, они должны быть устранены."
+alert(module.method_good_punctuation(any_string));
+
+any_string = '  Эта      строка предназначена,как это ни странно   , для подсчёта слов.Она должна вернуть четырнадцать'
+alert(module.method_amount_of_words(any_string));
+
+any_string = 'Текст, в котором слово текст несколько раз встречается и слово тоже'
+let user_dict_word = module.method_dict_word(any_string);
+alert(module.method_unique_words(user_dict_word));
+
+</script>

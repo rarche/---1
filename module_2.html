@@ -1,0 +1,38 @@
+<script>
+class module_2 {
+
+    method_add(num_1, num_2) {
+        num_1 = BigInt(num_1);
+        num_2 = BigInt(num_2);
+        return num_1 + num_2
+    }
+
+    method_sub(num_1, num_2) {
+        num_1 = BigInt(num_1);
+        num_2 = BigInt(num_2);
+        return num_1 - num_2
+    }
+
+    method_mul(num_1, num_2) {
+        num_1 = BigInt(num_1);
+        num_2 = BigInt(num_2);
+        return num_1 * num_2
+    }
+
+    method_div(num_1, num_2) {
+        num_1 = BigInt(num_1);
+        num_2 = BigInt(num_2);
+        return num_1 / num_2
+    }
+
+}
+
+let user_num_1 = '2201231232134321541615378765434567876543456543';
+let user_num_2 = '15345675435676543567876543456787654356';
+
+let module = new module_2;
+alert(module.method_add(user_num_1,user_num_2))
+alert(module.method_sub(user_num_1,user_num_2))
+alert(module.method_mul(user_num_1,user_num_2))
+alert(module.method_div(user_num_1,user_num_2))
+</script>
